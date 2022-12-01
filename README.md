@@ -1,6 +1,10 @@
 # Advent of Code 2022
 
+Likely bad code, please don't take.
+
 ## [Day 1](https://adventofcode.com/2022/day/1)
+
+I enjoy excel. With the addition of `LET` and `LAMBDA`, excel formula is now the most commonly used functional programming language! I mainly chose to use excel here as it was too late to setup a dev environment.
 
 ### [Part 1](https://adventofcode.com/2022/day/1#part1)
 
