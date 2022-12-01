@@ -20,16 +20,16 @@ Input | Running Sum | Top 3
 1000  | 1000        |
 2000  | 3000        |
 3000  | 6000        |
-      | 0           |
+ | 0           |
 4000  | 4000        |
-      | 0           |
+ | 0           |
 5000  | 5000        |
 6000  | 11000       |
-      | 0           |
+ | 0           |
 7000  | 7000        | 3rd Largest
 8000  | 15000       | 2nd Largest
 9000  | 24000       | 1st Largest
-      | 0           |
+ | 0           |
 10000 | 10000       |
 
 Fixing this is another case of `OFFSET`, and some ugly boundary conditions. On an interesting note, the actual input doesn't have this issue at all!
