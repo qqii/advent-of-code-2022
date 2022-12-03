@@ -28,7 +28,7 @@ To appreciate the madness of my solution, we must first take a foray into how dy
 
 Many common excel function accept both values and ranges, such as `SUM`. You can call `SUM(A1, A2, A3)` or `SUM(A1:A3)`. Other still reasonably known functions, such as [`X`](../day02/README.md#part-1)`MATCH` are designed to use ranges. Lesser known functions such as `MUNIT` (matrix unit) and `RANDARRAY` can themselves generate a range, where their outputs spill over from one cell to another. [In previous versions](https://support.microsoft.com/en-us/office/dynamic-array-formulas-in-non-dynamic-aware-excel-696e164e-306b-4282-ae9d-aa88f5502fa2) this had to be triggered by pressing keying `Ctrl+Shift+Enter`, which adds `{}` around the formula.
 
-As of recently (2022?) more and more excel functions have begun to accept dynamic ranges, such as `IF` and `+` (e.g. `A1:A5 + B1:B5`). Sadly this leaves the existing range based functions at a bit of an inconsistency - `AND(A1:A5, B1:B5)` reduces to a single value (as it did originally) instead of a spillover. The worst part is that dynamic arrays and tables do not play well, so you are forced to use the name manager instead.
+As of recently (2022?) more and more excel functions have begun to accept dynamic ranges, such as `IF` and `+` (e.g. `A1:A5 + B1:B5`). ~Sadly this leaves the existing range based functions at a bit of an inconsistency - `AND(A1:A5, B1:B5)` reduces to a single value (as it did originally) instead of a spillover.~ For functions that don't play nicely you can use `BYROW` and `BYCOL`. The worst part is that dynamic arrays and tables do not play well, so you are forced to use the name manager instead.
 
 ### Splitting Text into Characters by Casting Incantations
 
@@ -56,5 +56,13 @@ The final solution is verbose, but hopefully still digestible. I can only hope I
 ```
 
 ## [Part 2](https://adventofcode.com/2022/day/3#part2)
+
+Using let and lambda has paid off, although I've hacked in an every 3rd using `MOD` whereas it may have been more sensible to use `WRAPROWS`. Other than that having a `LET` and `LAMBDA` really paid off as I could reuse a big chunk of what I'd previously used. 
+
+ `COUNTC` turns out over engineered compared to using `SEQUENCE` and/or `FIND`, and I would have noticed this if I read the problem carefully:
+
+ > The Elf that did the packing failed to follow this rule for **exactly one item type per rucksack**.
+
+Through searching I've also discovered [`BYROW`](https://support.microsoft.com/en-gb/office/byrow-function-2e04c677-78c8-4e6b-8c10-a4602f2602bb) and [`BYCOL`](https://support.microsoft.com/en-us/office/bycol-function-58463999-7de5-49ce-8f38-b7f7a2192bfb), which maps a lambda along an axis. Along with `HSTACK` and `VSTACK` this makes excel formula a pretty powerful array processing language! It's still a bit unergonomic since the lambda argument is an array and has to be manually unpacked using `INDEX`, but perhaps I'll try doing it all in 1 cell next time!
 
 ### [Go home](../README.md)
