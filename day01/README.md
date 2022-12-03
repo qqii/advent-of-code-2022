@@ -1,6 +1,8 @@
 # [Day 1](https://adventofcode.com/2022/day/1)
 
-I enjoy excel. With the addition of `LET` and `LAMBDA`, excel formula is now the most commonly used functional programming language! I mainly chose to use excel here as it was too late to setup a dev environment.
+I enjoy excel. With the addition of `LET` and `LAMBDA` excel formula is now the most commonly used functional programming language! Disciplined used of [structured references via tables](https://support.microsoft.com/en-us/office/using-structured-references-with-excel-tables-f5ed2452-2337-4f71-bed3-c8ae6d2b276e), good variable/table heading naming can go a long way to ensure complex excel files are manageable and understandable. 
+
+I mainly chose to use excel here as it was too late to setup a dev environment.
 
 To new multi line formula (although you have to format it yourself), extend the formula bar and use `ALT+Enter`.
 
