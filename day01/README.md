@@ -43,4 +43,10 @@ More excel thoughts:
 - If you're using `OFFSET`, excel is not likely not the right tool
 - On the other hand using excel forces small steps, and easy debugging by presenting an explosion of the in between steps
 
-### [Go home](../README.md)
+## Quick navigation
+
+| Jump to...                 |
+| -------------------------- |
+| _Previous (no more)_       |
+| [Next](../day02/README.md) |
+| [Home](../README.md)       |

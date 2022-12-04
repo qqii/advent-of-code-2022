@@ -17,4 +17,11 @@ I've separated parts 1 and 2 into different sheets this time with the idea of us
 
 The problem was a bit more involved, but exploding the calculation into columns once again proves useful. To calculate our move, I've done a horizontal `INDEX` `MATCH` by naming the columns the same as the outcome. From the notes of part 1, I also extracted the outcome score map into it's own table. Introducing an outcome column made things a lot simpler, and should have probably been something I did in part 1.
 
-### [Go home](../README.md)
+
+## Quick navigation
+
+| Jump to...                     |
+| ------------------------------ |
+| [Previous](../day01/README.md) |
+| [Next](../day03/README.md)     |
+| [Home](../README.md)           |

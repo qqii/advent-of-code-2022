@@ -50,4 +50,10 @@ It turns out that excel has [quite a few more array processing functions](https:
 - `ISOMITTED`, to define lambdas that do different things when given a different numbers of arguments
 
 With these cool new features in my toolbox, I think I'm going to make an attempt at a 1 cell solution tomorrow.
-- ### [Go home](../README.md)
+## Quick navigation
+
+| Jump to...                     |
+| ------------------------------ |
+| [Previous](../day02/README.md) |
+| _Next (come back later...)_    |
+| [Home](../README.md)           |
