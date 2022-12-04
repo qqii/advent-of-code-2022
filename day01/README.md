@@ -43,6 +43,25 @@ More excel thoughts:
 - If you're using `OFFSET`, excel is not likely not the right tool
 - On the other hand using excel forces small steps, and easy debugging by presenting an explosion of the in between steps
 
+## Further Refinement
+
+[Taking some inspiration](https://old.reddit.com/r/adventofcode/comments/z9ezjb/2022_day_1_solutions/iytomws/?context=1), there is an "elegant (ab)use" of `CONCAT` and `TEXTSPLIT` to avoid array functions.
+
+```
+= LET(
+    input, ExampleInput[Input] + N("My input was in a table, this formula is picky about the input ending at the last data point"),
+    sep, "#" + N("Anything will do, as long as it isn't a number!"),
+    joined, CONCAT(input & sep),
+    joined_init, LEFT(joined, LEN(joined) - 1) + N("CONCAT will leaves a trailing separator that'll mess up the last elf"),
+    per_elf, TEXTSPLIT(joined_init, sep & sep),
+    SumElf, LAMBDA(sep_elf, SUM(TEXTSPLIT(sep_elf, sep) + 0 + N("cast text to number"))),
+    sum_per_elf, MAP(per_elf, SumElf),
+    SUM(
+      MAP({1,2,3}, LAMBDA(n, LARGE(sum_per_elf, n)))
+    ) + N("OR MAX(sum_per_elf)")
+  )
+```
+
 ## Quick navigation
 
 | Jump to...                 |
