@@ -10,59 +10,44 @@ When I saw this problem, I already knew that this would be a bit of wizardry to 
 
 ### Character to Priority
 
-Sadly Excel's autofill feature really failed me, as it just didn't want to complete the alphabet. Seeing this I opted to code the function in reverse, mapping values to characters. 
+Sadly Excel's autofill feature really failed me, as it just didn't want to complete the alphabet. Seeing this I opted to code the function in reverse, mapping values to characters. [The intention](https://www.microsoft.com/en-us/research/podcast/advancing-excel-as-a-programming-language-with-andy-gordon-and-simon-peyton-jones/) is to use the name manager to define lambdas global to a workbook or sheet, but the name manager editor does not use newlines so I just used `LET` instead. 
 
-I also took the opportunity to experiment with using `LAMBDA`, which I have practically avoided until now. [The intention](https://www.microsoft.com/en-us/research/podcast/advancing-excel-as-a-programming-language-with-andy-gordon-and-simon-peyton-jones/) seem to be using the name manager to define lambdas in the workbook or sheet scope, to use them in the same way as any excel function. This is a bit messy, especially as defining lambdas in the name manager has to be all done on a single line. 
-
-Instead I have used `LET`, the "poor man's name manager" and defined the lambda inline. 
-
-In retrospect the mapping might have been easier to do just by hand, and defining two lambdas using the name manager. All in all, excel doesn't really define let alone incentivise "good practices" with `LET` and `LAMBDA`.
+In retrospect the mapping might have been easier to do just by hand. All in all, excel doesn't really define let alone incentivise "good practices" with `LET` and `LAMBDA`.
 
 ### Finding Common Characters
 
-To appreciate the madness of my solution, we must first take a foray into how dynamic arrays work.
+This uses [Dynamic arrays](https://support.microsoft.com/en-us/office/dynamic-array-formulas-and-spilled-array-behavior-205c6b06-03ba-4151-89a1-87a7eb36e531), which are a bit of a pain as spillovers don't play very well with tables.
+### Splitting Text into Characters
 
-#### Dynamic Arrays
+Dynamic lengths in excel can be achieved with `SEQUENCE`, but I opted to create a tally for all possible characters instead. What really got me was the fact that `MATCH`, `XMATCH` and `=` are all case insensitive, so I had to use `EXACT` instead. 
 
-[Dynamic arrays](https://support.microsoft.com/en-us/office/dynamic-array-formulas-and-spilled-array-behavior-205c6b06-03ba-4151-89a1-87a7eb36e531) are a lesser known (citation needed), strangely inconsistent but extremely powerful feature.
-
-Many common excel function accept both values and ranges, such as `SUM`. You can call `SUM(A1, A2, A3)` or `SUM(A1:A3)`. Other still reasonably known functions, such as [`X`](../day02/README.md#part-1)`MATCH` are designed to use ranges. Lesser known functions such as `MUNIT` (matrix unit) and `RANDARRAY` can themselves generate a range, where their outputs spill over from one cell to another. [In previous versions](https://support.microsoft.com/en-us/office/dynamic-array-formulas-in-non-dynamic-aware-excel-696e164e-306b-4282-ae9d-aa88f5502fa2) this had to be triggered by pressing keying `Ctrl+Shift+Enter`, which adds `{}` around the formula.
-
-As of recently (2022?) more and more excel functions have begun to accept dynamic ranges, such as `IF` and `+` (e.g. `A1:A5 + B1:B5`). ~Sadly this leaves the existing range based functions at a bit of an inconsistency - `AND(A1:A5, B1:B5)` reduces to a single value (as it did originally) instead of a spillover.~ For functions that don't play nicely you can use `BYROW` and `BYCOL`. The worst part is that dynamic arrays and tables do not play well, so you are forced to use the name manager instead.
-
-### Splitting Text into Characters by Casting Incantations
-
-In a normal language, splitting a _dynamic length_ string into characters to process them individually is simple. This is not so much in excel. I came up with two avenues to solve this problem:
-
-- Use `SEQUENCE`, (aka `range` or `iota`) which can generate a dynamic array, map over the sequence to extract each character in the left half using `MID`. Then map over this to extract characters in the right half.
-- Mapping over all of the possible characters, tally how many time it occurs. Then `AND` these arrays to be left with the singular character.
-
-Both of these are quite involved, but I chose the 2nd one as it seemed simpler. There were three problems:
-
-- Excel doesn't have many text manipulation functions, and nothing to count the number of occupance a character appears in some text
-- `MATCH`, `XMATCH` and `=` are all case insensitive 
-- `AND` is an old-style function that reduces any number of ranges to a single value.
-
-The final solution is verbose, but hopefully still digestible. I can only hope I went with the right approach for part 2.
+Counting the characters is a bit of a hack, and later I realise that I could have just used `FIND`.
 
 ```Excel
-=LET(
-  COUNTC, LAMBDA(Char,String, LEN(String) - LEN(SUBSTITUTE(String, Char, ""))),
-  HasLeft, COUNTC(Priority[Character], [@Left]) > 0,
-  HasRight, COUNTC(Priority[Character], [@Right]) > 0,
-  HasBoth, (HasLeft + HasRight) = 2,
-  INDEX(Priority[Character], XMATCH(TRUE, HasBoth))
-)
+=LET(COUNTC, LAMBDA(Char,String, LEN(String) - LEN(SUBSTITUTE(String, Char, ""))), ...)
 ```
+
+At this point I wasn't aware of `BYROW` or `BYCOL` so I used arithmetic to calculate the `AND`. 
 
 ## [Part 2](https://adventofcode.com/2022/day/3#part2)
 
-Using let and lambda has paid off, although I've hacked in an every 3rd using `MOD` whereas it may have been more sensible to use `WRAPROWS`. Other than that having a `LET` and `LAMBDA` really paid off as I could reuse a big chunk of what I'd previously used. 
+Using `LET` and `LAMBDA` paid off as this was a trivial addition. I used `MOD` and `OFFSET` for the 3 rows instead of `WRAPROWS` as I had not discovered `BYROW` or `BYCOL`, and I was using a table.
 
- `COUNTC` turns out over engineered compared to using `SEQUENCE` and/or `FIND`, and I would have noticed this if I read the problem carefully:
+Here I noticed the problem wording:
 
  > The Elf that did the packing failed to follow this rule for **exactly one item type per rucksack**.
 
-Through searching I've also discovered [`BYROW`](https://support.microsoft.com/en-gb/office/byrow-function-2e04c677-78c8-4e6b-8c10-a4602f2602bb) and [`BYCOL`](https://support.microsoft.com/en-us/office/bycol-function-58463999-7de5-49ce-8f38-b7f7a2192bfb), which maps a lambda along an axis. Along with `HSTACK` and `VSTACK` this makes excel formula a pretty powerful array processing language! It's still a bit unergonomic since the lambda argument is an array and has to be manually unpacked using `INDEX`, but perhaps I'll try doing it all in 1 cell next time!
+It turns out that excel has [quite a few more array processing functions](https://support.microsoft.com/en-us/office/guidelines-and-examples-of-array-formulas-7d94a64e-3ff3-4686-9372-ecfd5caa57c7) and [higher order functions](https://insider.office.com/en-us/blog/new-lambda-functions-available-in-excel) than I thought, fleshing out some functions that I'd previously considered not that useful. As a brief list for personal reference:
 
-### [Go home](../README.md)
+- `BYROW` and `BYCOL`, maps a lambda in an axis which in combination
+- `REDUCE`, `SCAN` and `MAP`, `fold`, `scan` and `map`
+- `MAKEARRAY`, create a matrix by calling `foo(row, col)`
+- `HSTACK` and `VSTACK`, puts arrays together
+- `WRAPCOLS` and `WRAPROWS`, reshaping data
+- `TOROW` and `TOCOL`, flattening and removing gaps in an array
+- `TAKE` and `DROP`, `head` and `tail`
+- `EXPAND`, padding with a defailt
+- `ISOMITTED`, to define lambdas that do different things when given a different numbers of arguments
+
+With these cool new features in my toolbox, I think I'm going to make an attempt at a 1 cell solution tomorrow.
+- ### [Go home](../README.md)
