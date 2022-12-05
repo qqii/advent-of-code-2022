@@ -13,3 +13,7 @@ More excel.
 ## [Day 03](./day03/README.md)
 
 Further excel, it's looking like this could possibly be entirely in excel. 
+
+## [Day 04](./day04/README.md)
+
+Practicing with excel's [array processing](https://support.microsoft.com/en-us/office/guidelines-and-examples-of-array-formulas-7d94a64e-3ff3-4686-9372-ecfd5caa57c7) and [higher order functions](https://insider.office.com/en-us/blog/new-lambda-functions-available-in-excel) I discovered in [day 03 part 2](./day03/README.md#part-2).

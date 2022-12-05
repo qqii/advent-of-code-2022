@@ -55,5 +55,5 @@ With these cool new features in my toolbox, I think I'm going to make an attempt
 | Jump to...                     |
 | ------------------------------ |
 | [Previous](../day02/README.md) |
-| _Next (come back later...)_    |
+| [Next](../day04/README.md)     |
 | [Home](../README.md)           |
