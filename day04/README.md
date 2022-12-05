@@ -23,7 +23,7 @@ It's obvious that I'm still not familiar with how excel likes to deal with dynam
 I was once again caught out from `TEXTSPLIT`'s output not being automatically converted to numbers, but I had even greater difficulty trying to map the second `TEXTSPLIT` over the first. No matter what I tried, the 2nd `TEXTSPLIT` would either only give me the first item in the range, or `#CALC`.  
 I'm sure there's probably a way to do it, but I just don't know what it is so I resorted to using `INDEX` to partition to two elves.
 
-## [Part 2](https://adventofcode.com/2022/day/3#part2)
+## [Part 2](https://adventofcode.com/2022/day/4#part2)
 
 A simple adaptation from part 1.
 
@@ -41,11 +41,10 @@ A simple adaptation from part 1.
   SUM(MAP(Input, HASOVERLAP) + 0)
 )
 ```
-
 ## Quick navigation
 
 | Jump to...                     |
 | ------------------------------ |
 | [Previous](../day03/README.md) |
-| _Next (come back later...)_    |
+| [Next](../day05/README.md)     |
 | [Home](../README.md)           |
