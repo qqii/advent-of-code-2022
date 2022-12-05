@@ -12,6 +12,14 @@ A far more elegant solution would be to relax the constraints of tables and do t
 
 ## [Part 2](https://adventofcode.com/2022/day/5#part2)
 
+After all that the "CrateMover 9001" solution was easier than the "CrateMover 9000" since excel doesn't have a `REVERSE` function. For reference this was my implementation of `REVERSE`:
+
+```
+LAMBDA(str, CONCAT(MID(str, SEQUENCE(LEN(str),, LEN(str), -1), 1)))
+```
+
+In retrospect I relied on `REDUCE` a bit too much when trying to squeeze part 1 into a single cell, but alas I no longer want to excel anymore so it's going to stay as is.
+
 ## Quick navigation
 
 | Jump to...                     |
