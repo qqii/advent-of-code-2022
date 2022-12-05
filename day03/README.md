@@ -46,7 +46,7 @@ It turns out that excel has [quite a few more array processing functions](https:
 - `WRAPCOLS` and `WRAPROWS`, reshaping data
 - `TOROW` and `TOCOL`, flattening and removing gaps in an array
 - `TAKE` and `DROP`, `head` and `tail`
-- `EXPAND`, padding with a defailt
+- `EXPAND`, padding with a default
 - `ISOMITTED`, to define lambdas that do different things when given a different numbers of arguments
 
 With these cool new features in my toolbox, I think I'm going to make an attempt at a 1 cell solution tomorrow.
