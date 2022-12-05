@@ -25,6 +25,22 @@ I'm sure there's probably a way to do it, but I just don't know what it is so I 
 
 ## [Part 2](https://adventofcode.com/2022/day/3#part2)
 
+A simple adaptation from part 1.
+
+```
+=LET(
+  Input, Input[Input],
+  HASOVERLAP, LAMBDA(Input, LET(
+    PerElf, TEXTSPLIT(Input, ","),
+    LeftElf, TEXTSPLIT(INDEX(PerElf, 1), "-") + 0,
+    RightElf, TEXTSPLIT(INDEX(PerElf, 2), "-") + 0,
+    MinMax, MIN(MAX(LeftElf), MAX(RightElf)),
+    MaxMin, MAX(MIN(LeftElf), MIN(RightElf)),
+    MaxMin <= MinMax
+  )),
+  SUM(MAP(Input, HASOVERLAP) + 0)
+)
+```
 
 ## Quick navigation
 
