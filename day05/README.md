@@ -79,6 +79,8 @@ I've done it. It's uh, not the prettiest thing but it works. `MAP`ping or `REDUC
 
 I've also added "Visualisation" into the `vis` sheet just for fun.
 
+https://user-images.githubusercontent.com/6891353/205775699-039e7315-b383-4f05-8068-0c789ee57cf4.mp4
+
 ## Quick navigation
 
 | Jump to...                     |
